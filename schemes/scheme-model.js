@@ -7,6 +7,7 @@ module.exports = {
   add,
   update,
   remove,
+  addStep,
 };
 
 //returns a promise that resolves to an array of all schemes in the database
@@ -23,8 +24,10 @@ function findById(id) {
 //array should include scheme_name not scheme_id
 function findSteps(id) {
   return db("steps as s")
-    .join("schemes as sc", "s.scheme_id", "sc.id")
-    .select("s.step_number", "s.instructions", "sc.scheme_name");
+    .join("schemes as sc", "sc.id", "s.scheme_id")
+    .where({ scheme_id: id })
+    .select("s.step_number", "s.instructions", "sc.scheme_name")
+    .orderBy("s.step_number");
 }
 
 // inserts scheme into the database
@@ -52,4 +55,9 @@ function update(changes, id) {
 //removes the scheme object with the provided id
 function remove(id) {
   return db("schemes").where({ id }).del();
+}
+
+//adds the step object into the steps database and links it to the correct scheme
+function addStep(step, scheme_id) {
+  return db("steps").insert();
 }

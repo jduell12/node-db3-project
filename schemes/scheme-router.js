@@ -34,7 +34,6 @@ router.get("/:id", (req, res) => {
 
 router.get("/:id/steps", (req, res) => {
   const { id } = req.params;
-
   Schemes.findSteps(id)
     .then((steps) => {
       if (steps.length) {
