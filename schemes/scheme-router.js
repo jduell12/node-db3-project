@@ -14,21 +14,23 @@ router.get("/", (req, res) => {
     });
 });
 
-// router.get('/:id', (req, res) => {
-//   const { id } = req.params;
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
 
-//   Schemes.findById(id)
-//   .then(scheme => {
-//     if (scheme) {
-//       res.json(scheme);
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id.' })
-//     }
-//   })
-//   .catch(err => {
-//     res.status(500).json({ message: 'Failed to get schemes' });
-//   });
-// });
+  Schemes.findById(id)
+    .then((scheme) => {
+      if (scheme) {
+        res.json(scheme);
+      } else {
+        res
+          .status(404)
+          .json({ message: "Could not find scheme with given id." });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Failed to get schemes" });
+    });
+});
 
 // router.get('/:id/steps', (req, res) => {
 //   const { id } = req.params;
