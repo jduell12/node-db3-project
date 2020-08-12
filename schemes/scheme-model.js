@@ -59,5 +59,13 @@ function remove(id) {
 
 //adds the step object into the steps database and links it to the correct scheme
 function addStep(step, scheme_id) {
-  return db("steps").insert();
+  return db("steps")
+    .insert({
+      scheme_id: scheme_id,
+      step_number: step.step_number,
+      instructions: step.instructions,
+    })
+    .then((result) => {
+      return findSteps(scheme_id);
+    });
 }
