@@ -27,8 +27,29 @@ function findSteps(id) {
     .select("s.step_number", "s.instructions", "sc.scheme_name");
 }
 
-function add(scheme) {}
+// inserts scheme into the database
+//resolves to newly inserted scheme including id
+function add(scheme) {
+  return db("schemes")
+    .insert(scheme)
+    .returning("id")
+    .then((ids) => {
+      return findById(ids[0]);
+    });
+}
 
-function update(changes, id) {}
+//updates the scheme with the gieven id
+//resolves to the newly updated scheme object
+function update(changes, id) {
+  return db("schemes")
+    .where({ id })
+    .update(changes)
+    .then((count) => {
+      return findById(id);
+    });
+}
 
-function remove(id) {}
+//removes the scheme object with the provided id
+function remove(id) {
+  return db("schemes").where({ id }).del();
+}
